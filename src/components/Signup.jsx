@@ -2,80 +2,78 @@ import React,{useState} from 'react'
 import tree from '../assets/img/illustrations/tree.png'
 import tree3 from '../assets/img/illustrations/tree-3.png'
 import masklight from "../assets/img/illustrations/auth-basic-mask-light.png"
-import { Link,useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-const Login = () => {
+const Signup = () => {
 
-  const navigate = useNavigate()
-
-  const [mobileNumber, setMobileNumber] = useState('')
-  const [showOtp, setShowOtp] = useState(false)
-  const [otp, setOtp] = useState(['', '', '', ''])
-
-  const handleMobileChange = (e) => {
-    const value = e.target.value.replace(/\D/g, '')
-    if (value.length <= 10) {
-      setMobileNumber(value)
-    }
-  }
-
-  const handleLogin = (e) => {
-    e.preventDefault()
-    if (mobileNumber.length === 10) {
-      setShowOtp(true)
-      // Add your API call here to send OTP
-      // Auto-focus first OTP input
-      setTimeout(() => {
-        document.getElementById('otp-0')?.focus()
-      }, 0)
-    }
-  }
+    const [showOTP, setShowOTP] = useState(false)
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      mobile: ''
+    })
+    const [otp, setOtp] = useState(['', '', '', ''])
   
+    // Add form validation and handlers
+    const handleInputChange = (e) => {
+      const { name, value } = e.target
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }))
+    }
+  
+    // Add email validation function
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
-  const handleOtpChange = (index, value) => {
-    // Only allow digits
-    if (!/^\d*$/.test(value)) return
-
-    const newOtp = [...otp]
-    newOtp[index] = value
-    setOtp(newOtp)
+  const handleSignup = (e) => {
+    e.preventDefault()
+    // Validate email and mobile
+    if (!isValidEmail(formData.email)) {
+      alert('Please enter a valid email address')
+      return
+    }
+    if (formData.mobile.length !== 10) {
+      alert('Mobile number must be 10 digits')
+      return
+    }
+    // Show OTP inputs if validation passes
+    setShowOTP(true)
+    // Focus first OTP input after a short delay to ensure rendering
+    setTimeout(() => {
+      document.getElementById('otp-0')?.focus()
+    }, 100)
+  }
     
-    // Auto-focus next input or submit if last digit
-    if (value && index < 3) {
-      const nextInput = document.getElementById(`otp-${index + 1}`)
-      nextInput?.focus()
-    }
-  }
-
-  const handleVerifyOtp = () => {
-    const otpString = otp.join('')
-    if (otpString.length === 4) {
-      // Check mobile number and OTP combination
-      if (mobileNumber === '9091929394' && otpString === '1234') {
-        navigate('/admindashboard')
-      } else if (mobileNumber === '9091929395' && otpString === '1234') {
-        navigate('/userdashboard')
-      } else {
-        // Optional: Add error handling for invalid combinations
-        console.log('Invalid mobile number or OTP combination')
+      const handleOtpChange = (index, value) => {
+        if (value.length <= 1) {
+          const newOtp = [...otp]
+          newOtp[index] = value
+          setOtp(newOtp)
+          
+          // Auto-focus next input
+          if (value && index < 3) {
+            document.getElementById(`otp-${index + 1}`).focus()
+          }
+        }
       }
-    }
-  }
-
 
   return (
     
-   <>
-   <div className="position-relative">
+  <>
+  <div className="position-relative">
   <div className="authentication-wrapper authentication-basic container-p-y">
     <div className="authentication-inner py-6 mx-4">
-      {/* Login */}
+      {/* Register Card */}
       <div className="card p-7">
         {/* Logo */}
         <div className="app-brand justify-content-center mt-5">
           <a href="index.html" className="app-brand-link gap-3">
             <span className="app-brand-logo demo">
-              <span style={{ color: "#9055FD" }}>
+              <span style={{ color: "var(--bs-primary)" }}>
                 <svg
                   width={30}
                   height={24}
@@ -159,64 +157,114 @@ const Login = () => {
         </div>
         {/* /Logo */}
         <div className="card-body mt-1">
-          <h4 className="mb-1">Welcome to Materio! 👋🏻</h4>
-          <p className="mb-5">
-            Please sign-in to your account and start the adventure
-          </p>
+          <h4 className="mb-1">Adventure starts here 🚀</h4>
+          <p className="mb-5">Make your app management easy and fun!</p>
+
           <form
-                  id="formAuthentication"
-                  className="mb-5 fv-plugins-bootstrap5 fv-plugins-framework"
-                  onSubmit={(e) => e.preventDefault()}
-                  noValidate
-                >
-                  <div className="form-floating form-floating-outline mb-5">
-  <input
-    type="text"
-    className="form-control"
-    id="mobile"
-    value={mobileNumber}
-    onChange={handleMobileChange}
-    placeholder="Enter Mobile Number"
-    autoFocus
-    disabled={showOtp} // Disable when showing OTP
-  />
-  <label htmlFor="mobile">Mobile</label>
-</div>
-
-                  {showOtp && (
-  <div className="mb-5">
-    <div className="d-flex gap-2">
-      {[0, 1, 2, 3].map((index) => (
+           id="formAuthentication"
+           className="mb-5 fv-plugins-bootstrap5 fv-plugins-framework"
+           onSubmit={handleSignup}
+           noValidate
+          >
+              <div className="form-floating form-floating-outline mb-5 fv-plugins-icon-container">
         <input
-          key={index}
-          id={`otp-${index}`}
           type="text"
-          className="form-control text-center"
-          style={{ flex: 1 }}
-          value={otp[index]}
-          onChange={(e) => handleOtpChange(index, e.target.value)}
-          maxLength={1}
+          className="form-control"
+          id="username"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          placeholder="Enter your Name"
+          required
+          disabled={showOTP} // Disable when OTP is shown
         />
-      ))}
+        <label htmlFor="username">Name</label>
+        <div className="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" />
+      </div>
+      <div className="form-floating form-floating-outline mb-5 fv-plugins-icon-container">
+        <input
+          type="email"
+          className="form-control"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          placeholder="Enter your email"
+          required
+          disabled={showOTP} // Disable when OTP is shown
+        />
+        <label htmlFor="email">Email</label>
+        <div className="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" />
+      </div>
+      <div className="mb-5 form-password-toggle fv-plugins-icon-container">
+        <div className="input-group input-group-merge">
+          <div className="form-floating form-floating-outline">
+            <input
+              type="text"
+              id="mobile"
+              className="form-control"
+              name="mobile"
+              value={formData.mobile}
+              onChange={handleInputChange}
+              placeholder="Enter Mobile Number"
+              maxLength="10"
+              pattern="[0-9]{10}"
+              required
+              disabled={showOTP} // Disable when OTP is shown
+            />
+            <label htmlFor="Mobile">Mobile</label>
+          </div>
+          <span className="input-group-text cursor-pointer">
+            <i className="ri-eye-off-line ri-20px" />
+          </span>
+        </div>
+        <div className="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" />
+      </div>
+           
+            {showOTP ? (
+      <>
+        <div className="mb-5 form-password-toggle fv-plugins-icon-container">
+      <div className="input-group input-group-merge">
+        <div className="form-floating form-floating-outline d-flex gap-2">
+          {[0, 1, 2, 3].map((index) => (
+            <input
+              key={index}
+              id={`otp-${index}`}
+              type="text"
+              className="form-control text-center"
+              maxLength={1}
+              value={otp[index]}
+              onChange={(e) => handleOtpChange(index, e.target.value)}
+              style={{
+                width: 'calc(25% - 8px)', // Subtracting gap space
+                minWidth: '40px'
+              }}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" />
     </div>
-  </div>
-)}
+    <button className="btn btn-primary d-grid w-100 mb-5">
+      Verify OTP
+    </button>
+      </>
+    ) : (
+      <button 
+    className="btn btn-primary d-grid w-100 mb-5"
+    disabled={!formData.name || !isValidEmail(formData.email) || formData.mobile.length !== 10}
+  >
+    Sign up
+  </button>
+    )}
+            <input type="hidden" />
+          </form>
 
-                  <div className="mb-5">
-                    <button
-                      className="btn btn-primary d-grid w-100 waves-effect waves-light"
-                      type="button"
-                      disabled={showOtp ? otp.join('').length !== 4 : mobileNumber.length !== 10}
-                      onClick={showOtp ? handleVerifyOtp : handleLogin}
-                    >
-                      {showOtp ? 'Verify OTP' : 'Login'}
-                    </button>
-                  </div>
-                </form>
+
           <p className="text-center mb-5">
-            <span>Don't have an account?</span>
-            <Link to="/signup">
-              <span>Signup</span>
+            <span>Already have an account?</span>
+            <Link to="/login">
+              <span>Login</span>
             </Link>
           </p>
           
@@ -248,7 +296,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      {/* /Login */}
+      {/* Register Card */}
       <img
         src={tree3}
         alt="auth-tree"
@@ -271,10 +319,9 @@ const Login = () => {
   </div>
 </div>
 
-   
-   </>
+  </>
 
   )
 }
 
-export default Login
+export default Signup
