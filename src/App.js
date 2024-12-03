@@ -37,7 +37,7 @@ function App() {
   <HashRouter>
       
       <Routes>
-        <Route exact path="/admindashboard"  element={<AdminDashboard />}    />
+        <Route  path="/admindashboard"  element={<AdminDashboard />}    />
         <Route path="/subscriptionlistview"  element={<SubscriptionListView />}   />
         <Route exact path="/"  element={<Login />}  />
         <Route path="/signup"  element={<Signup />}   />
