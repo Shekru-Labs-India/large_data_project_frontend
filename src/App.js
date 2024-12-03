@@ -39,7 +39,7 @@ function App() {
       <Routes>
         <Route exact path="/admindashboard"  element={<AdminDashboard />}    />
         <Route path="/subscriptionlistview"  element={<SubscriptionListView />}   />
-        <Route path="/"  element={<Login />}  />
+        <Route exact path="/"  element={<Login />}  />
         <Route path="/signup"  element={<Signup />}   />
         <Route path="/createsubscription"   element={<CreateSubscription />}   />
         <Route path="/updateadminprofile"  element={<UpdateAdminProfile />}   />
