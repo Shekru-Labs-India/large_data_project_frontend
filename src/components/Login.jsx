@@ -222,26 +222,30 @@ const Login = () => {
           
           <div className="d-flex justify-content-center gap-2">
             <a
-              href="javascript:;"
+              href="#"
               className="btn btn-icon btn-lg rounded-pill btn-text-facebook waves-effect waves-light"
+              onClick={(e) => e.preventDefault()}
             >
               <i className="bx bxl-facebook" />
             </a>
             <a
-              href="javascript:;"
+              href="#"
               className="btn btn-icon btn-lg rounded-pill btn-text-twitter waves-effect waves-light"
+              onClick={(e) => e.preventDefault()}
             >
               <i className="bx bxl-twitter" />
             </a>
             <a
-              href="javascript:;"
+              href="#"
               className="btn btn-icon btn-lg rounded-pill btn-text-github waves-effect waves-light"
+              onClick={(e) => e.preventDefault()}
             >
               <i className="bx bxl-instagram-alt" />
             </a>
             <a
-              href="javascript:;"
+              href="#"
               className="btn btn-icon btn-lg rounded-pill btn-text-google-plus waves-effect waves-light"
+              onClick={(e) => e.preventDefault()}
             >
               <i className="bx bxl-linkedin-square" />
             </a>

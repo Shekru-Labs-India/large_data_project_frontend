@@ -15,7 +15,7 @@ const Navbar = () => {
   <nav className="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme bg-white" id="layout-navbar">
   <div className="container-xxl">
     <div className="navbar-brand app-brand demo d-none d-xl-flex py-0 me-6">
-      <a href="index.html" className="app-brand-link gap-2">
+      <a href="#" className="app-brand-link gap-2" onClick={(e) => e.preventDefault()}>
         <span className="app-brand-logo demo">
           <span style={{ color: "var(--bs-primary)" }}>
             <svg
@@ -99,14 +99,15 @@ const Navbar = () => {
         </span>
       </a>
       <a
-        href="javascript:void(0);"
+        href="#"
         className="layout-menu-toggle menu-link text-large ms-auto d-xl-none"
+        onClick={(e) => e.preventDefault()}
       >
         <i className="ri-close-fill align-middle" />
       </a>
     </div>
     <div className="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0  d-xl-none  ">
-      <a className="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+      <a className="nav-item nav-link px-0 me-xl-6" href="#" onClick={(e) => e.preventDefault()}>
         <i className="fa-solid fa-bars" />
       </a>
     </div>
@@ -121,7 +122,7 @@ const Navbar = () => {
         <li className="nav-item dropdown-style-switcher dropdown">
   <a
     className="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
-    href="javascript:void(0);"
+    href="#"
     data-bs-toggle="dropdown"
   >
     <i className="bx bx-sun" />
@@ -130,7 +131,7 @@ const Navbar = () => {
     <li>
       <a
         className="dropdown-item"
-        href="javascript:void(0);"
+        href="#"
         data-theme="light"
       >
         <span className="align-middle">
@@ -140,7 +141,7 @@ const Navbar = () => {
       </a>
     </li>
     <li>
-      <a className="dropdown-item" href="javascript:void(0);" data-theme="dark">
+      <a className="dropdown-item" href="#" data-theme="dark">
         <span className="align-middle">
           <i className="bx bx-moon me-3" />
           Dark
@@ -158,7 +159,7 @@ const Navbar = () => {
         <li className="nav-item navbar-dropdown dropdown-user dropdown">
           <a
             className="nav-link dropdown-toggle hide-arrow p-0"
-            href="javascript:void(0);"
+            href="#"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
